@@ -40,7 +40,8 @@ LOCAL_SHARED_LIBRARIES := \
 
 LOCAL_CFLAGS := \
 	-D_FILE_OFFSET_BITS=64 \
-	-DFUSE_USE_VERSION=26
+	-DFUSE_USE_VERSION=26 \
+	-fno-strict-aliasing
 
 LOCAL_MODULE := libfusetwrp
 LOCAL_MODULE_TAGS := optional
@@ -56,7 +57,7 @@ LOCAL_SRC_FILES := \
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/include
 
-LOCAL_CFLAGS := -D_FILE_OFFSET_BITS=64
+LOCAL_CFLAGS := -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing
 
 LOCAL_MODULE := fusexmp
 LOCAL_MODULE_TAGS := optional

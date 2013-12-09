@@ -68,6 +68,8 @@ ifeq ($(HAVE_SELINUX), true)
 LOCAL_CFLAGS += -DHAVE_SELINUX
 endif
 
+LOCAL_CPPFLAGS += -fno-strict-aliasing
+
 ifeq ($(DEVICE_RESOLUTION),)
 ifneq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
 
