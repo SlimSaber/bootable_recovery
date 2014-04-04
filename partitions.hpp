@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <string>
+#include "twrpDU.hpp"
 
 #define MAX_FSTAB_LINE_LENGTH 2048
 
@@ -74,6 +75,7 @@ private:
 	void Find_Actual_Block_Device();                                          // Determines the correct block device and stores it in Actual_Block_Device
 
 	bool Process_Flags(string Flags, bool Display_Error);                     // Process custom fstab flags
+	bool Process_FS_Flags(string& Options, int Flags);                        // Process standard fstab fs flags
 	bool Is_File_System(string File_System);                                  // Checks to see if the file system given is considered a file system
 	bool Is_Image(string File_System);                                        // Checks to see if the file system given is considered an image
 	void Setup_File_System(bool Display_Error);                               // Sets defaults for a file system partition
@@ -144,6 +146,8 @@ private:
 	bool Is_Settings_Storage;                                                 // Indicates that this storage partition is the location of the .twrps settings file and the location that is used for custom themes
 	string Storage_Path;                                                      // Indicates the path to the storage -- root indicates mount point, media/ indicates e.g. /data/media
 	string Fstab_File_System;                                                 // File system from the recovery.fstab
+	int Mount_Flags;                                                          // File system flags from recovery.fstab
+	string Mount_Options;                                                     // File system options from recovery.fstab
 	int Format_Block_Size;                                                    // Block size for formatting
 	bool Ignore_Blkid;                                                        // Ignore blkid results due to superblocks lying to us on certain devices / partitions
 	bool Retain_Layout_Version;                                               // Retains the .layout_version file during a wipe (needed on devices like Sony Xperia T where /data and /data/media are separate partitions)
@@ -159,7 +163,7 @@ friend class GUIPartitionList;
 class TWPartitionManager
 {
 public:
-	TWPartitionManager() {}
+	TWPartitionManager();													  // Constructor for TWRPartionManager
 	~TWPartitionManager() {}
 
 public:
@@ -209,6 +213,7 @@ public:
 	void Output_Storage_Fstab();                                              // Creates a /cache/recovery/storage.fstab file with a list of all potential storage locations for app use
 
 private:
+	void Setup_Settings_Storage_Partition(TWPartition* Part);                 // Sets things up for the storage partition
 	bool Make_MD5(bool generate_md5, string Backup_Folder, string Backup_Filename); // Generates an MD5 after a backup is made
 	bool Backup_Partition(TWPartition* Part, string Backup_Folder, bool generate_md5, unsigned long long* img_bytes_remaining, unsigned long long* file_bytes_remaining, unsigned long *img_time, unsigned long *file_time, unsigned long long *img_bytes, unsigned long long *file_bytes);
 	bool Restore_Partition(TWPartition* Part, string Restore_Name, int partition_count);
